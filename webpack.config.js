@@ -14,7 +14,7 @@ function plugins(argv) {
 }
 
 module.exports = (env, argv) => ({
-  entry: { bundle: './index.ts' },
+  entry: { bundle: './src/index.ts' },
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: '[name].js',
@@ -68,7 +68,7 @@ module.exports = (env, argv) => ({
     new HtmlWebpackPlugin(),
     new HtmlWebpackPlugin({ // Also generate a test.html
       filename: 'index.html',
-      template: './index.html',
+      template: './src/index.html',
     }),
     new MiniCssExtractPlugin({
       filename: '[name].css',

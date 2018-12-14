@@ -1,13 +1,3 @@
-import './styles.scss';
-import { videoUi } from './videoUi';
-
-const videoFrame = document.querySelector('.video-frame');
-
-if (videoFrame) {
-  videoFrame.insertAdjacentHTML('beforeend', videoUi('https://cdn.yoc.com/ad/demo/airbnb.mp4'))
-}
-
-const video = <HTMLVideoElement>document.getElementById('video');
 let isPlaying: boolean = false;
 let setIntervalVideo: any;
 let viewTimeout: number;
@@ -22,8 +12,9 @@ const muteIcon = document.querySelector('.icon');
 /**
  * @function playVideo
  * Play the video and checking percentage progress 
+ * @returns {boolean}
  */
-function playVideo(): void {
+export function playVideo(video): boolean {
   // The interval is how long could it take reproduce 1% --> video.duration * 1000 / 100
   const intervalDuration: number = video.duration * 10;
   // We check the global variable 'isPLaying' to avoid call video.play() more than once
@@ -35,19 +26,22 @@ function playVideo(): void {
       listenProgress(video);
     }, intervalDuration);
   }
+  return isPlaying;
 }
 
 /**
  * @function pauseVideo
  * Pause the video and stop checking percentage progress 
+ * @returns {boolean}
  */
-function pauseVideo(): void {
+function pauseVideo(video): boolean {
   // We check the global variable 'isPlaying' to avoid call video.pause() more than once
   if (isPlaying) {
     video.pause();
     isPlaying = false;
     // We clear the setInterval to stop checking the percentage progress
     clearInterval(setIntervalVideo);
+    return isPlaying;
   }
 }
 
@@ -55,15 +49,16 @@ function pauseVideo(): void {
  * @function startAdv
  * Main method for listening the user's scroll event
  */
-function startAdv(): void {
+export function startAdv(video): void {
   document.addEventListener('scroll', () => {
     const videoPosY: object = video.getBoundingClientRect();
+    const videoHeight = video.offsetHeight;
     // Everytime the user scroll, we check wheter the video is enough visible, more than 50%
-    const videoIsVisible: boolean = isEnoughVisible(videoPosY, windowHeight);
+    const videoIsVisible: boolean = isEnoughVisible(videoPosY, windowHeight, videoHeight);
     if (videoIsVisible) {
-      playVideo();
+      playVideo(video);
     } else {
-      pauseVideo();
+      pauseVideo(video);
     }
   });
 
@@ -117,12 +112,12 @@ function listenProgress(video): void {
  * @param {number} windowHeight
  * @returns {boolean}
  */
-export function isEnoughVisible(videoPosY, windowHeight: number): boolean {
+export function isEnoughVisible(videoPosY, windowHeight: number, videoHeight: number): boolean {
   let isVisible = false;
   if (videoPosY.top > 0) {
-    isVisible = (windowHeight - videoPosY.top) > (video.offsetHeight / 2);
+    isVisible = (windowHeight - videoPosY.top) > (videoHeight / 2);
   } else {
-    isVisible = Math.abs(videoPosY.top) < (video.offsetHeight / 2);
+    isVisible = Math.abs(videoPosY.top) < (videoHeight / 2);
   }
   checkViewability(isVisible);
   return isVisible;
@@ -133,7 +128,7 @@ export function isEnoughVisible(videoPosY, windowHeight: number): boolean {
  * Check if the video is in the viewport for 2 continuos seconds
  * @param {boolean} isVisible
  */
-function checkViewability(isVisible: boolean): void {
+export function checkViewability(isVisible: boolean): void {
   if (isVisible) {
     if (!isInTheViewport && !startedTrack) {
       startedTrack = true;
@@ -148,5 +143,3 @@ function checkViewability(isVisible: boolean): void {
     clearTimeout(viewTimeout);
   }
 }
-
-startAdv();
