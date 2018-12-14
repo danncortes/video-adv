@@ -80,7 +80,7 @@ function listenProgress(video): void {
   }
 };
 
-function isEnoughVisible(videoPosY, windowHeight: number): boolean {
+export function isEnoughVisible(videoPosY, windowHeight: number): boolean {
   let isVisible = false;
   if (videoPosY.top > 0) {
     isVisible = (windowHeight - videoPosY.top) > (video.offsetHeight / 2);
