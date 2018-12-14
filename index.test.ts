@@ -1,15 +1,11 @@
 import { isEnoughVisible } from './index';
+import { videoUi } from './videoUi';
 
 it('my test', () => {
   document.body.innerHTML =
     `<div class="video-frame">
-      <span > Advertising </span>
-      <section>
-        <figure class="icon muted"></figure>
-        <video id="video" loop muted>
-          <source src="https://cdn.yoc.com/ad/demo/airbnb.mp4" type = "video/mp4">
-        </video>
-      </section>
+      <span>Advertising</span>
+      ${videoUi('https://cdn.yoc.com/ad/demo/airbnb.mp4')}
     </div>`
 
   const video = <HTMLVideoElement>document.querySelector('#video')

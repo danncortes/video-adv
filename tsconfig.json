@@ -6,6 +6,7 @@
         "sourceMap": false,
         "declaration": true,
         "allowSyntheticDefaultImports": true,
-        "outDir": "lib"
+        "outDir": "lib",
+        "alwaysStrict": true
     }
 }

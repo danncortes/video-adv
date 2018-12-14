@@ -13,6 +13,7 @@ html{
 
 .video-container{
   padding:40px;
+  transition: all 0.3s;
 }
 
 .video-frame{
@@ -62,6 +63,13 @@ html{
 @media (max-width: 767.98px) {
   .video-container{
     padding:20px;
+  }
+  .video-frame section figure.icon{
+    background-size: 80%;
+    width:20px;
+    height: 20px;
+    top: 14px;
+    right: 14px;
   }
 }
 
