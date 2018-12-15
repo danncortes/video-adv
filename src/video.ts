@@ -49,7 +49,7 @@ export function pauseVideo(video): boolean {
  * @function startAdv
  * Main method for listening the user's scroll event
  */
-export function startAdv(video, muteIcon): void {
+export function startAdv(video): void {
   document.addEventListener('scroll', () => {
     const videoPosY: object = video.getBoundingClientRect();
     const videoHeight = video.offsetHeight;
@@ -62,28 +62,27 @@ export function startAdv(video, muteIcon): void {
     }
   });
 
-  clickListener(video, muteIcon);
+  video.addEventListener('click', onClickVideo)
 }
 
 /**
- * @function addEventListener
+ * @function onClickVideo
  * Toggle event for mute and unmute video
  */
-export function clickListener(video, muteIcon) {
-  video.addEventListener('click', (ev) => {
-    muted = !muted;
-    const eventElement = <HTMLAudioElement>ev.target;
-    eventElement.muted = muted;
+export function onClickVideo(ev) {
+  const muteIcon = document.querySelector('.icon');
+  muted = !muted;
+  const eventElement = <HTMLAudioElement>ev.target;
+  eventElement.muted = muted;
 
-    //Toggle class in order to show the proper icon sound
-    if (!muted) {
-      muteIcon.classList.remove('muted');
-      muteIcon.className += ' ' + 'unmuted';
-    } else {
-      muteIcon.classList.remove('unmuted');
-      muteIcon.className += ' ' + 'muted';
-    }
-  })
+  //Toggle class in order to show the proper icon sound
+  if (!muted) {
+    muteIcon.classList.remove('muted');
+    muteIcon.className += ' ' + 'unmuted';
+  } else {
+    muteIcon.classList.remove('unmuted');
+    muteIcon.className += ' ' + 'muted';
+  }
 }
 
 /**
@@ -111,7 +110,7 @@ export function listenProgress(video): void {
 
 /**
  * @function isEnoughVisible
- * Detect when the video in at least more than 50% of it height visible in the viewport
+ * Detect when the video in at least more than 50% of its height visible in the viewport area
  * @param {object} videoPosY
  * @param {number} windowHeight
  * @returns {boolean}
@@ -129,7 +128,7 @@ export function isEnoughVisible(videoPosY, windowHeight: number, videoHeight: nu
 
 /**
  * @function checkViewability
- * Check if the video is in the viewport for 2 continuos seconds
+ * Check if the video is visible in the viewport area for 2 continuos seconds
  * @param {boolean} isVisible
  */
 export function checkViewability(isVisible: boolean): void {
@@ -137,7 +136,7 @@ export function checkViewability(isVisible: boolean): void {
     if (!isInTheViewport && !startedTrack) {
       startedTrack = true;
       viewTimeout = setTimeout(() => {
-        console.log('Visible on the ViewPort');
+        console.log('Visible in the ViewPort area');
         clearTimeout(viewTimeout);
         isInTheViewport = true;
       }, 2000)

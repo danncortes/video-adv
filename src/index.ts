@@ -1,4 +1,4 @@
-import './styles.css';
+import './styles.scss';
 import { videoUi } from './videoUi';
 import { startAdv } from './video';
 
@@ -9,6 +9,5 @@ if (videoFrame) {
 }
 
 const video = <HTMLVideoElement>document.getElementById('video');
-const muteIcon = document.querySelector('.icon');
 
-startAdv(video, muteIcon);
+startAdv(video);

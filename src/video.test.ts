@@ -1,8 +1,10 @@
+import { videoUi } from './videoUi';
 import {
   isEnoughVisible,
   playVideo,
   pauseVideo,
   listenProgress,
+  onClickVideo
 } from './video';
 
 it('should isEnoughVisible function return TRUE when the video is visible more than 50% in the viewPort', () => {
