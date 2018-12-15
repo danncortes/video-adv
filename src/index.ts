@@ -9,5 +9,6 @@ if (videoFrame) {
 }
 
 const video = <HTMLVideoElement>document.getElementById('video');
+const muteIcon = document.querySelector('.icon');
 
-startAdv(video);
+startAdv(video, muteIcon);

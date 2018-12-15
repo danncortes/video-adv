@@ -7,7 +7,7 @@ let startedTrack: boolean = false;
 let muted: boolean = true;
 let unlockedAudio = false;
 const windowHeight: number = document.documentElement.clientHeight;
-const muteIcon = document.querySelector('.icon');
+
 
 /**
  * @function playVideo
@@ -26,7 +26,7 @@ export function playVideo(video): boolean {
       listenProgress(video);
     }, intervalDuration);
   }
-  return isPlaying;
+  return isPlaying
 }
 
 /**
@@ -34,22 +34,22 @@ export function playVideo(video): boolean {
  * Pause the video and stop checking percentage progress 
  * @returns {boolean}
  */
-function pauseVideo(video): boolean {
+export function pauseVideo(video): boolean {
   // We check the global variable 'isPlaying' to avoid call video.pause() more than once
   if (isPlaying) {
     video.pause();
     isPlaying = false;
     // We clear the setInterval to stop checking the percentage progress
     clearInterval(setIntervalVideo);
-    return isPlaying;
   }
+  return isPlaying
 }
 
 /**
  * @function startAdv
  * Main method for listening the user's scroll event
  */
-export function startAdv(video): void {
+export function startAdv(video, muteIcon): void {
   document.addEventListener('scroll', () => {
     const videoPosY: object = video.getBoundingClientRect();
     const videoHeight = video.offsetHeight;
@@ -62,10 +62,14 @@ export function startAdv(video): void {
     }
   });
 
-  /**
-   * @function addEventListener
-   * Toggle event for mute and unmute video
-   */
+  clickListener(video, muteIcon);
+}
+
+/**
+ * @function addEventListener
+ * Toggle event for mute and unmute video
+ */
+export function clickListener(video, muteIcon) {
   video.addEventListener('click', (ev) => {
     muted = !muted;
     const eventElement = <HTMLAudioElement>ev.target;
@@ -87,7 +91,7 @@ export function startAdv(video): void {
  * Catch the percentage and show a console message depends on the percentages
  * @param video
  */
-function listenProgress(video): void {
+export function listenProgress(video): void {
   let currentPercentage = Math.round(video.currentTime * 100 / video.duration);
 
   if (currentPercentage === 25 || currentPercentage === 50 || currentPercentage === 75) {
