@@ -1,5 +1,6 @@
 let isPlaying: boolean = false;
 let setIntervalVideo: any;
+let setIntervalProgress: any;
 let viewTimeout: number;
 let justStarted: boolean = false;
 let isInTheViewport: boolean = false;
@@ -14,7 +15,7 @@ const windowHeight: number = document.documentElement.clientHeight;
  * Play the video and checking percentage progress 
  * @returns {boolean}
  */
-export function playVideo(video): boolean {
+export function playVideo(video, progressBar): boolean {
   // The interval is how long could it take reproduce 1% --> video.duration * 1000 / 100
   const intervalDuration: number = video.duration * 10;
   // We check the global variable 'isPLaying' to avoid call video.play() more than once
@@ -25,6 +26,13 @@ export function playVideo(video): boolean {
     setIntervalVideo = setInterval(() => {
       listenProgress(video);
     }, intervalDuration);
+
+    progressBar.style.opacity = '0.3';
+    setIntervalProgress = setInterval(() => {
+      const videoWidth = video.offsetWidth;
+      const percentageBar = video.currentTime * 100 / video.duration;
+      progressBar.style.width = `${percentageBar}%`
+    }, 1);
   }
   return isPlaying
 }
@@ -34,13 +42,15 @@ export function playVideo(video): boolean {
  * Pause the video and stop checking percentage progress 
  * @returns {boolean}
  */
-export function pauseVideo(video): boolean {
+export function pauseVideo(video, progressBar): boolean {
   // We check the global variable 'isPlaying' to avoid call video.pause() more than once
   if (isPlaying) {
     video.pause();
     isPlaying = false;
     // We clear the setInterval to stop checking the percentage progress
     clearInterval(setIntervalVideo);
+    progressBar.style.opacity = '0';
+    clearInterval(setIntervalProgress);
   }
   return isPlaying
 }
@@ -50,15 +60,17 @@ export function pauseVideo(video): boolean {
  * Main method for listening the user's scroll event
  */
 export function startAdv(video): void {
+
+  const progressBar = document.querySelector('.progressBar');
   document.addEventListener('scroll', () => {
     const videoPosY: object = video.getBoundingClientRect();
     const videoHeight = video.offsetHeight;
     // Everytime the user scroll, we check wheter the video is enough visible, more than 50%
     const videoIsVisible: boolean = isEnoughVisible(videoPosY, windowHeight, videoHeight);
     if (videoIsVisible) {
-      playVideo(video);
+      playVideo(video, progressBar);
     } else {
-      pauseVideo(video);
+      pauseVideo(video, progressBar);
     }
   });
 

@@ -4,5 +4,6 @@ export const videoUi = (url) => (
     <video id="video" loop muted>
       <source src="${url}" type = "video/mp4">
     </video>
+    <div class="progressBar"></div>
   </section>`
 )
