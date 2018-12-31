@@ -6,13 +6,11 @@ let justStarted: boolean = false;
 let isInTheViewport: boolean = false;
 let startedTrack: boolean = false;
 let muted: boolean = true;
-let unlockedAudio = false;
 const windowHeight: number = document.documentElement.clientHeight;
-
 
 /**
  * @function playVideo
- * Play the video and checking percentage progress 
+ * Play the video and checking percentage progress
  * @returns {boolean}
  */
 export function playVideo(video, progressBar): boolean {
@@ -30,16 +28,16 @@ export function playVideo(video, progressBar): boolean {
     progressBar.style.opacity = '0.3';
     setIntervalProgress = setInterval(() => {
       const videoWidth = video.offsetWidth;
-      const percentageBar = video.currentTime * 100 / video.duration;
-      progressBar.style.width = `${percentageBar}%`
+      const percentageBar = (video.currentTime * 100) / video.duration;
+      progressBar.style.width = `${percentageBar}%`;
     }, 1);
   }
-  return isPlaying
+  return isPlaying;
 }
 
 /**
  * @function pauseVideo
- * Pause the video and stop checking percentage progress 
+ * Pause the video and stop checking percentage progress
  * @returns {boolean}
  */
 export function pauseVideo(video, progressBar): boolean {
@@ -52,7 +50,7 @@ export function pauseVideo(video, progressBar): boolean {
     progressBar.style.opacity = '0';
     clearInterval(setIntervalProgress);
   }
-  return isPlaying
+  return isPlaying;
 }
 
 /**
@@ -60,13 +58,16 @@ export function pauseVideo(video, progressBar): boolean {
  * Main method for listening the user's scroll event
  */
 export function startAdv(video): void {
-
   const progressBar = document.querySelector('.progressBar');
   document.addEventListener('scroll', () => {
     const videoPosY: object = video.getBoundingClientRect();
     const videoHeight = video.offsetHeight;
     // Everytime the user scroll, we check wheter the video is enough visible, more than 50%
-    const videoIsVisible: boolean = isEnoughVisible(videoPosY, windowHeight, videoHeight);
+    const videoIsVisible: boolean = isEnoughVisible(
+      videoPosY,
+      windowHeight,
+      videoHeight,
+    );
     if (videoIsVisible) {
       playVideo(video, progressBar);
     } else {
@@ -74,7 +75,7 @@ export function startAdv(video): void {
     }
   });
 
-  video.addEventListener('click', onClickVideo)
+  video.addEventListener('click', onClickVideo);
 }
 
 /**
@@ -87,7 +88,7 @@ export function onClickVideo(ev) {
   const eventElement = <HTMLAudioElement>ev.target;
   eventElement.muted = muted;
 
-  //Toggle class in order to show the proper icon sound
+  // Toggle class in order to show the proper icon sound
   if (!muted) {
     muteIcon.classList.remove('muted');
     muteIcon.className += ' ' + 'unmuted';
@@ -103,22 +104,28 @@ export function onClickVideo(ev) {
  * @param video
  */
 export function listenProgress(video): void {
-  let currentPercentage = Math.round(video.currentTime * 100 / video.duration);
+  const currentPercentage = Math.round(
+    (video.currentTime * 100) / video.duration,
+  );
 
-  if (currentPercentage === 25 || currentPercentage === 50 || currentPercentage === 75) {
+  if (
+    currentPercentage === 25
+    || currentPercentage === 50
+    || currentPercentage === 75
+  ) {
     console.log(`${currentPercentage}% Played`);
   }
   if (currentPercentage >= 99) {
-    console.log(`100% Played`);
+    console.log('100% Played');
     // Uncomment this if we want to run the percentage played log just one round
     // clearInterval(setIntervalVideo)
   }
-  //If the video at least is played 1 second we show a message only once
+  // If the video at least is played 1 second we show a message only once
   if (Math.round(video.currentTime) === 1 && justStarted === false) {
     console.log('Video Started');
     justStarted = true;
   }
-};
+}
 
 /**
  * @function isEnoughVisible
@@ -127,12 +134,16 @@ export function listenProgress(video): void {
  * @param {number} windowHeight
  * @returns {boolean}
  */
-export function isEnoughVisible(videoPosY, windowHeight: number, videoHeight: number): boolean {
+export function isEnoughVisible(
+  videoPosY,
+  windowHeight: number,
+  videoHeight: number,
+): boolean {
   let isVisible = false;
   if (videoPosY.top > 0) {
-    isVisible = (windowHeight - videoPosY.top) > (videoHeight / 2);
+    isVisible = windowHeight - videoPosY.top > videoHeight / 2;
   } else {
-    isVisible = Math.abs(videoPosY.top) < (videoHeight / 2);
+    isVisible = Math.abs(videoPosY.top) < videoHeight / 2;
   }
   checkViewability(isVisible);
   return isVisible;
@@ -151,7 +162,7 @@ export function checkViewability(isVisible: boolean): void {
         console.log('Visible in the ViewPort area');
         clearTimeout(viewTimeout);
         isInTheViewport = true;
-      }, 2000)
+      }, 2000);
     }
   } else {
     startedTrack = false;
