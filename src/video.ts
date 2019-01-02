@@ -9,6 +9,38 @@ let muted: boolean = true;
 const windowHeight: number = document.documentElement.clientHeight;
 
 /**
+ * @function listenProgress
+ * Catch the percentage and show a console message depends on the percentages
+ * @param video
+ */
+export function listenProgress(video): void {
+  const currentPercentage = Math.round(
+    (video.currentTime * 100) / video.duration,
+  );
+
+  if (
+    currentPercentage === 25
+    || currentPercentage === 50
+    || currentPercentage === 75
+  ) {
+    // eslint-disable-next-line
+    console.log(`${currentPercentage}% Played`);
+  }
+  if (currentPercentage >= 99) {
+    // eslint-disable-next-line
+    console.log("100% Played");
+    // Uncomment this if we want to run the percentage played log just one round
+    // clearInterval(setIntervalVideo)
+  }
+  // If the video at least is played 1 second we show a message only once
+  if (Math.round(video.currentTime) === 1 && justStarted === false) {
+    // eslint-disable-next-line
+    console.log("Video Started");
+    justStarted = true;
+  }
+}
+
+/**
  * @function playVideo
  * Play the video and checking percentage progress
  * @returns {boolean}
@@ -27,7 +59,6 @@ export function playVideo(video, progressBar): boolean {
 
     progressBar.style.opacity = '0.3';
     setIntervalProgress = setInterval(() => {
-      const videoWidth = video.offsetWidth;
       const percentageBar = (video.currentTime * 100) / video.duration;
       progressBar.style.width = `${percentageBar}%`;
     }, 1);
@@ -99,31 +130,24 @@ export function onClickVideo(ev) {
 }
 
 /**
- * @function listenProgress
- * Catch the percentage and show a console message depends on the percentages
- * @param video
+ * @function checkViewability
+ * Check if the video is visible in the viewport area for 2 continuos seconds
+ * @param {boolean} isVisible
  */
-export function listenProgress(video): void {
-  const currentPercentage = Math.round(
-    (video.currentTime * 100) / video.duration,
-  );
-
-  if (
-    currentPercentage === 25
-    || currentPercentage === 50
-    || currentPercentage === 75
-  ) {
-    console.log(`${currentPercentage}% Played`);
-  }
-  if (currentPercentage >= 99) {
-    console.log('100% Played');
-    // Uncomment this if we want to run the percentage played log just one round
-    // clearInterval(setIntervalVideo)
-  }
-  // If the video at least is played 1 second we show a message only once
-  if (Math.round(video.currentTime) === 1 && justStarted === false) {
-    console.log('Video Started');
-    justStarted = true;
+export function checkViewability(isVisible: boolean): void {
+  if (isVisible) {
+    if (!isInTheViewport && !startedTrack) {
+      startedTrack = true;
+      viewTimeout = setTimeout(() => {
+        // eslint-disable-next-line
+        console.log("Visible in the ViewPort area");
+        clearTimeout(viewTimeout);
+        isInTheViewport = true;
+      }, 2000);
+    }
+  } else {
+    startedTrack = false;
+    clearTimeout(viewTimeout);
   }
 }
 
@@ -147,25 +171,4 @@ export function isEnoughVisible(
   }
   checkViewability(isVisible);
   return isVisible;
-}
-
-/**
- * @function checkViewability
- * Check if the video is visible in the viewport area for 2 continuos seconds
- * @param {boolean} isVisible
- */
-export function checkViewability(isVisible: boolean): void {
-  if (isVisible) {
-    if (!isInTheViewport && !startedTrack) {
-      startedTrack = true;
-      viewTimeout = setTimeout(() => {
-        console.log('Visible in the ViewPort area');
-        clearTimeout(viewTimeout);
-        isInTheViewport = true;
-      }, 2000);
-    }
-  } else {
-    startedTrack = false;
-    clearTimeout(viewTimeout);
-  }
 }
