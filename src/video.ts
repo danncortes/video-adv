@@ -15,27 +15,27 @@ const windowHeight: number = document.documentElement.clientHeight;
  */
 export function listenProgress(video): void {
   const currentPercentage = Math.round(
-    (video.currentTime * 100) / video.duration,
+    (video.currentTime * 100) / video.duration
   );
 
   if (
-    currentPercentage === 25
-    || currentPercentage === 50
-    || currentPercentage === 75
+    currentPercentage === 25 ||
+    currentPercentage === 50 ||
+    currentPercentage === 75
   ) {
     // eslint-disable-next-line
     console.log(`${currentPercentage}% Played`);
   }
   if (currentPercentage >= 99) {
     // eslint-disable-next-line
-    console.log("100% Played");
+    console.log('100% Played');
     // Uncomment this if we want to run the percentage played log just one round
     // clearInterval(setIntervalVideo)
   }
   // If the video at least is played 1 second we show a message only once
   if (Math.round(video.currentTime) === 1 && justStarted === false) {
     // eslint-disable-next-line
-    console.log("Video Started");
+    console.log('Video Started');
     justStarted = true;
   }
 }
@@ -97,7 +97,7 @@ export function startAdv(video): void {
     const videoIsVisible: boolean = isEnoughVisible(
       videoPosY,
       windowHeight,
-      videoHeight,
+      videoHeight
     );
     if (videoIsVisible) {
       playVideo(video, progressBar);
@@ -140,7 +140,7 @@ export function checkViewability(isVisible: boolean): void {
       startedTrack = true;
       viewTimeout = setTimeout(() => {
         // eslint-disable-next-line
-        console.log("Visible in the ViewPort area");
+        console.log('Visible in the ViewPort area');
         clearTimeout(viewTimeout);
         isInTheViewport = true;
       }, 2000);
@@ -161,7 +161,7 @@ export function checkViewability(isVisible: boolean): void {
 export function isEnoughVisible(
   videoPosY,
   windowHeight: number,
-  videoHeight: number,
+  videoHeight: number
 ): boolean {
   let isVisible = false;
   if (videoPosY.top > 0) {
@@ -172,3 +172,5 @@ export function isEnoughVisible(
   checkViewability(isVisible);
   return isVisible;
 }
+
+var car = '';

@@ -7,7 +7,7 @@ const videoFrame = document.querySelector('.video-frame');
 if (videoFrame) {
   videoFrame.insertAdjacentHTML(
     'beforeend',
-    videoUi('https://cdn.yoc.com/ad/demo/airbnb.mp4'),
+    videoUi('https://cdn.yoc.com/ad/demo/airbnb.mp4')
   );
 }
 

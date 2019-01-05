@@ -2,14 +2,14 @@ import {
   isEnoughVisible,
   playVideo,
   pauseVideo,
-  listenProgress,
+  listenProgress
 } from './video';
 
 const progressBar = { style: { opacity: 0 } };
 
 it('should isEnoughVisible function return TRUE when the video is visible more than 50% in the viewPort', () => {
   const videoPosY = {
-    top: 399,
+    top: 399
   };
   const windowHeight = 600;
   const videoHeight = 400;
@@ -20,7 +20,7 @@ it('should isEnoughVisible function return TRUE when the video is visible more t
 
 it('should isEnoughVisible function return FALSE when the video is visible less than 50% in the viewPort', () => {
   const videoPosY = {
-    top: 401,
+    top: 401
   };
   const windowHeight = 600;
   const videoHeight = 400;
@@ -31,7 +31,7 @@ it('should isEnoughVisible function return FALSE when the video is visible less 
 
 it('Should playVideo function call the video.play() method', () => {
   const video = {
-    play: () => {},
+    play: () => {}
   };
   let isPlaying = false;
   const spy = jest.spyOn(video, 'play').mockImplementation(() => null);
@@ -42,7 +42,7 @@ it('Should playVideo function call the video.play() method', () => {
 
 it('Should pauseVideo function call the video.pause() method', () => {
   const video = {
-    pause: () => {},
+    pause: () => {}
   };
   let isPlaying = true;
   const spy = jest.spyOn(video, 'pause').mockImplementation(() => null);
@@ -54,7 +54,7 @@ it('Should pauseVideo function call the video.pause() method', () => {
 describe('Console.log tests', () => {
   const video = {
     duration: 100,
-    currentTime: 0,
+    currentTime: 0
   };
 
   it('Should call console.log when the video is played 1%', () => {

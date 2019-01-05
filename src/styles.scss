@@ -33,7 +33,7 @@ html {
     margin-bottom: 6px;
   }
 
-  &>section {
+  & > section {
     position: relative;
 
     figure.icon {
@@ -50,11 +50,11 @@ html {
       background-repeat: no-repeat;
 
       &.muted {
-        background-image: url("/assets/icons-muted.png");
+        background-image: url('/assets/icons-muted.png');
       }
 
       &.unmuted {
-        background-image: url("/assets/icons-audio.png");
+        background-image: url('/assets/icons-audio.png');
       }
     }
 
