@@ -172,5 +172,3 @@ export function isEnoughVisible(
   checkViewability(isVisible);
   return isVisible;
 }
-
-var car = '';
